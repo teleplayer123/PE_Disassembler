@@ -1,7 +1,7 @@
 from models.pe_file import PEFile
+import sys
 
-
-fn = "C:\\PE_Disassembler\\advapi32_copy.dll"
+fn = sys.argv[1]
 
 p = PEFile(fn)
 print("COFF Header")
