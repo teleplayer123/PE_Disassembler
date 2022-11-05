@@ -33,8 +33,8 @@ print(p.section_table)
 num_sections = p.num_of_sections
 sect_offset = p.sect_offset
 
-for i in range(2, num_sections):
+for i in range(1, num_sections):
     offset = (i * 40) + sect_offset
-    print(f"\nSection Header {i}:")
+    print(f"\nSection Header {i+1}:")
     sect = p.get_section_table_entry(offset)
     print(sect)
