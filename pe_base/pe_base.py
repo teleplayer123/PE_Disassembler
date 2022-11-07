@@ -6,7 +6,6 @@ class PEStruct:
     COFF_HDR_STRUCT = struct.Struct("L2H3L2H")
     MAGIC_STRUCT = struct.Struct("H")
     COFF_FIELD_STRUCT = struct.Struct("H2B6L")
-    COFF64_FIELD_STRUCT = struct.Struct("H2B5L")
     WIN64_FIELD_STRUCT = struct.Struct("Q2L6H4L2H4Q2L")
     WIN_FIELD_STRUCT = struct.Struct("3L6H4L2H6L")
     DATA_DIRECTORIES = struct.Struct("32L")

@@ -1,6 +1,7 @@
 from models.pe_file import PEFile
 import sys
 
+
 fn = sys.argv[1]
 
 p = PEFile(fn)
