@@ -27,3 +27,5 @@ class PEFile:
     def get_section_table_entry(self, offset: int):
         entry = self._section_table.get_section_table(offset)
         return entry
+
+

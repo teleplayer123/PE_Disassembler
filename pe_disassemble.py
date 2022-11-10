@@ -2,6 +2,10 @@ from models.pe_file import PEFile
 import sys
 
 
+if len(sys.argv) < 2:
+    print(f"Usage: py {sys.argv[0]} <pefile_path>")
+    sys.exit()
+    
 fn = sys.argv[1]
 
 p = PEFile(fn)
