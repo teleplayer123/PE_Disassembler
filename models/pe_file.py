@@ -28,4 +28,7 @@ class PEFile:
         entry = self._section_table.get_section_table(offset)
         return entry
 
+    def seek_hdr_offset(self, hdr_class, offset: int):
+        pass
+
 
