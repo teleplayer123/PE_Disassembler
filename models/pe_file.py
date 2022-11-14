@@ -9,6 +9,7 @@ class PEFile:
 
     def __init__(self, filename: str, byteorder: str="little"):
         _coff_hdr = COFFHeader(filename, byteorder=byteorder)
+        self.data = _coff_hdr.data
         self.coff_hdr = _coff_hdr.get_coff_hdr()
         self.num_of_sections = self.coff_hdr["number_of_sections"]
         sizeof_opt_hdr = self.coff_hdr["sizeof_optional_hdr"]
@@ -28,7 +29,7 @@ class PEFile:
         entry = self._section_table.get_section_table(offset)
         return entry
 
-    def seek_hdr_offset(self, hdr_class, offset: int):
+    def seek_last_section(self, offset: int):
         pass
 
 
