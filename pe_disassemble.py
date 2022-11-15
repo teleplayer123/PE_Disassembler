@@ -52,5 +52,6 @@ def print_headers():
     print(f"\nLast Offset: {last_offset+40}")
     print(f"\nLength of Data: {len(p.data)}")
 
+
 if __name__ == "__main__":
     print_headers()
