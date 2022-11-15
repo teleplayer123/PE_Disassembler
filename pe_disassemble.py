@@ -45,7 +45,7 @@ def print_headers():
         print(sect)
         last_offset = offset
 
-    hres = p.dump_last_section(p.data, last_offset+40)
+    hres = p.dump_section(p.data, last_offset)
     print("\n\nLast Section HexDump")
     print("-"*16)
     print(hres)
