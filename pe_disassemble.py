@@ -37,12 +37,20 @@ def print_headers():
 
     num_sections = p.num_of_sections
     sect_offset = p.sect_offset
-
+    last_offset = 0
     for i in range(1, num_sections):
         offset = (i * 40) + sect_offset
         print(f"\nSection Header {i+1}:")
         sect = p.get_section_table_entry(offset)
         print(sect)
+        last_offset = offset
+
+    hres = p.dump_last_section(p.data, last_offset+40)
+    print("\n\nLast Section HexDump")
+    print("-"*16)
+    print(hres)
+    print(f"\nLast Offset: {last_offset+40}")
+    print(f"\nLength of Data: {len(p.data)}")
 
 if __name__ == "__main__":
     print_headers()
