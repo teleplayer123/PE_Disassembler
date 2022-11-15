@@ -52,6 +52,10 @@ def print_headers():
     print(f"\nLast Offset: {last_offset+40}")
     print(f"\nLength of Data: {len(p.data)}")
 
+    print("\n\nSection Dictionary")
+    print("-"*16)
+    print(p.section_table_obj.get_sections(num_sections, sect_offset))
+
 
 if __name__ == "__main__":
     print_headers()
