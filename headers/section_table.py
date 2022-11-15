@@ -82,6 +82,14 @@ class SectionTable(PEBase):
             res = str(c) + res
         return res
 
+    def get_sections(self, num_sections: int, section_offset: int):
+        section_dict = {}
+        for i in range(0, num_sections):
+            offset = (i * 40) + section_offset
+            sec = self.get_section_table(offset)
+            section_dict[str(i+1)] = sec
+        return section_dict
+
 
 class RelocRecord(ctypes.Structure):
 
