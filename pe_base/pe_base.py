@@ -3,6 +3,7 @@ import struct
 
 class PEStruct:
 
+    DOS_HDR_STRUCT = struct.Struct("30HL")
     COFF_HDR_STRUCT = struct.Struct("L2H3L2H")
     MAGIC_STRUCT = struct.Struct("H")
     COFF_FIELD_STRUCT = struct.Struct("H2B6L")

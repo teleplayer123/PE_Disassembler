@@ -45,6 +45,10 @@ def print_headers():
         print(sect)
         last_offset = offset
 
+    print("\n\nSection Dictionary")
+    print("-"*16)
+    print(p.section_table_obj.get_sections(num_sections, sect_offset))
+
     hres = p.dump_section(p.data, last_offset)
     print("\n\nLast Section HexDump")
     print("-"*16)
@@ -52,9 +56,18 @@ def print_headers():
     print(f"\nLast Offset: {last_offset+40}")
     print(f"\nLength of Data: {len(p.data)}")
 
-    print("\n\nSection Dictionary")
+
+    sig_offset = int(p.coff_hdr_obj.get_sig_offset, 16)
+    offset = 0
+    print("\n\nRich Header")
     print("-"*16)
-    print(p.section_table_obj.get_sections(num_sections, sect_offset))
+    rhdr = p.dump_section(p.data, offset, sig_offset)
+    print(rhdr)
+
+    print("\n\nDOS Header")
+    print("-"*16)
+    print(p.dos_hdr)   
+    print(p.coff_hdr_obj.sig_offset)
 
 
 if __name__ == "__main__":

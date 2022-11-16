@@ -1,6 +1,7 @@
 from headers.optional_hdrs.data_directories import DataDirectories
 from headers.optional_hdrs.standard_fields import StandardFields
 from headers.optional_hdrs.windows_fields import WindowsFields
+from headers.dos_hdr import DOSHeader
 from headers.coff_hdr import COFFHeader
 from headers.section_table import SectionTable
 from tools.hexdump import xdump
@@ -10,6 +11,8 @@ class PEFile:
 
     def __init__(self, filename: str, byteorder: str="little"):
         self.data = self.read_file(filename)
+        self.dos_hdr_obj = DOSHeader(filename)
+        self.dos_hdr = self.dos_hdr_obj.get_dos_hdr()
         self.coff_hdr_obj = COFFHeader(filename, byteorder=byteorder)
         self.coff_hdr = self.coff_hdr_obj.get_coff_hdr()
         self.standard_fields_obj = StandardFields(filename, byteorder=byteorder)
