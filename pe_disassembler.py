@@ -5,6 +5,10 @@ from models.pe_file import PEFile
 class PEDisassembler(PEFile):
 
     @property
+    def dos_header(self):
+        return self.dos_hdr_obj
+
+    @property
     def coff_header(self):
         return self.coff_hdr_obj
 
@@ -27,4 +31,4 @@ class PEDisassembler(PEFile):
     def _find_rich_hdr(self):
         data = self.data
         sig_offset = int(self.coff_header.get_sig_offset, 16)
-
+        

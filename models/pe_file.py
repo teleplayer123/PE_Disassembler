@@ -6,6 +6,8 @@ from headers.coff_hdr import COFFHeader
 from headers.section_table import SectionTable
 from tools.hexdump import xdump
 
+import struct
+
 
 class PEFile:
 
@@ -69,3 +71,20 @@ class PEFile:
     def sect_virtual_size(self):
         vsize = self.section_table["virtual_size"]
         return vsize
+
+    @property
+    def rich_hdr_offset(self):
+        hdr_offset = None
+        for i in range(len(self.data)):
+            dword = self.data[i:i+4]
+            if dword == b"Rich":
+                hdr_offset = (dword, i)
+                break
+        return hex(hdr_offset[1])
+
+    @property
+    def rich_hdr_checksum(self):
+        offset = int(self.rich_hdr_offset, 16) + 4
+        cs_unpacked = struct.unpack("L", self.data[offset:offset+4])
+        checksum = hex(cs_unpacked[0])
+        return checksum

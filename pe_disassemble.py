@@ -59,7 +59,7 @@ def print_headers():
 
     sig_offset = int(p.coff_hdr_obj.get_sig_offset, 16)
     offset = 0
-    print("\n\nRich Header")
+    print("\n\nDOS Header Data")
     print("-"*16)
     rhdr = p.dump_section(p.data, offset, sig_offset)
     print(rhdr)
@@ -67,7 +67,16 @@ def print_headers():
     print("\n\nDOS Header")
     print("-"*16)
     print(p.dos_hdr)   
+    print("Sig Offset")
     print(p.coff_hdr_obj.sig_offset)
+
+    print("\n\nRich Header Offset")
+    print("-"*16)
+    print(p.rich_hdr_offset)
+
+    print("\nRich Header Checksum")
+    print("-"*16)
+    print(p.rich_hdr_checksum)
 
 
 if __name__ == "__main__":
