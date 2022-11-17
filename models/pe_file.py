@@ -58,16 +58,6 @@ class PEFile:
         return sizeof_opt_hdr
 
     @property
-    def sect_ptr_raw_data(self):
-        ptr = self.section_table["ptr_to_raw_data"]
-        return ptr
-
-    @property
-    def sect_sizeof_raw_data(self):
-        rd_size = self.section_table["sizeof_raw_data"]
-        return rd_size
-
-    @property
     def sect_virtual_size(self):
         vsize = self.section_table["virtual_size"]
         return vsize
