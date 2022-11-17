@@ -6,6 +6,7 @@ from headers.coff_hdr import COFFHeader
 from headers.section_table import SectionTable
 from tools.hexdump import xdump
 
+from collections import defaultdict
 import struct
 
 
@@ -78,3 +79,14 @@ class PEFile:
         cs_unpacked = struct.unpack("L", self.data[offset:offset+4])
         checksum = hex(cs_unpacked[0])
         return checksum
+
+    def get_section_data(self, sec_num: int):
+        sec_data = defaultdict(dict)
+        sec_dict = self.section_table_obj.get_sections(self.num_of_sections, self.sect_offset)
+        sec = sec_dict[str(sec_num)]
+        data_ptr = int(sec["ptr_to_raw_data"], 16)
+        data_size = int(sec["sizeof_raw_data"], 16)
+        data = self.data[data_ptr: data_ptr+data_size]
+        sec_data[str(sec_num)]["raw_data"] = data
+        sec_data[str(sec_num)]["hexdump"] = xdump(data)
+        return sec_data 

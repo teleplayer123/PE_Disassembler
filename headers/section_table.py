@@ -17,7 +17,7 @@ class SectionTable(PEBase):
         section_table["name"] = f"{self.decode_name(hex(data[0]))}: {hex(data[0])}"
         section_table["virtual_size"] = int(hex(data[1]), 16)
         section_table["virtual_addr"] = hex(data[2])
-        section_table["sizeof_raw_data"] = int(hex(data[3]), 16)
+        section_table["sizeof_raw_data"] = hex(data[3])
         section_table["ptr_to_raw_data"] = hex(data[4])
         section_table["ptr_to_relocations"] = hex(data[5])
         section_table["ptr_to_line_numbers"] = hex(data[6])
