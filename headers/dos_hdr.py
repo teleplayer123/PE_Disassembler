@@ -26,3 +26,6 @@ class DOSHeader(PEBase):
         hdr_dict["e_res2"] = data[20:30]
         hdr_dict["e_lfanew"] = hex(data[30])
         return hdr_dict
+
+    def parse_rich_hdr(self):
+        pass

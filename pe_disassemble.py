@@ -78,9 +78,9 @@ def print_headers():
     print("-"*16)
     print(p.rich_hdr_checksum)
 
-    print("\n\nSection Data")
-    print("-"*16)
-    print(p.get_section_data(2)["hexdump"])
+    #print("\n\nSection Data")
+    #print("-"*16)
+    #print(p.get_section_data(2)["hexdump"])
 
 
 if __name__ == "__main__":

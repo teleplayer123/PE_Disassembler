@@ -1,6 +1,6 @@
 from models.pe_file import PEFile
 
-from pprint import pformat
+from pprint import pformat, pprint
 import sys
 
 class PEDisassembler:
@@ -12,25 +12,25 @@ class PEDisassembler:
     def print_coff_hdr(self):
         print("\n\nCOFF Header")
         print("-"*16)
-        print(self.pe.coff_hdr)
+        pprint(self.pe.coff_hdr)
 
     @property
     def print_standard_hdr(self):
         print("\n\nStandard Header")
         print("-"*16)
-        print(self.pe.standard_fields)
+        pprint(self.pe.standard_fields)
 
     @property
     def print_win_hdr(self):
         print("\n\nWindows Header")
         print("-"*16)
-        print(self.pe.win_fields)
+        pprint(self.pe.win_fields)
 
     @property
     def print_data_dirs(self):
         print("\n\nData Directories")
         print("-"*16)
-        print(self.pe.data_directories)
+        pprint(self.pe.data_directories)
 
     @property
     def print_section_hdrs(self):
@@ -38,7 +38,7 @@ class PEDisassembler:
         print("-"*16)
         print(f"Number of Sections: {self.pe.num_of_sections}")
         print("Section Header 1:")
-        print(self.pe.section_table)
+        pprint(self.pe.section_table)
         num_sections = self.pe.num_of_sections
         sect_offset = self.pe.sect_offset
         last_offset = 0
@@ -46,7 +46,7 @@ class PEDisassembler:
             offset = (i * 40) + sect_offset
             print(f"\nSection Header {i+1}:")
             sect = self.pe.get_section_table_entry(offset)
-            print(sect)
+            pprint(sect)
             last_offset = offset
         return last_offset
 
@@ -81,7 +81,7 @@ class PEDisassembler:
         print("\n\nDOS Header Data")
         print("-"*16)
         rhdr = self.pe.dump_section(self.pe.data, offset, sig_offset)
-        print(rhdr)
+        pprint(rhdr)
 
     @property
     def print_dos_hdr(self):
@@ -118,7 +118,6 @@ def main():
     p.print_win_hdr
     p.print_data_dirs
     p.print_section_hdrs
-    p.print_section_data(2)
 
 if __name__ == "__main__":
     main()

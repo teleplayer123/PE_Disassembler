@@ -71,11 +71,11 @@ class PEFile:
             if dword == b"Rich":
                 hdr_offset = (dword, i)
                 break
-        return hex(hdr_offset[1])
+        return hex(hdr_offset[1]), hdr_offset[0]
 
     @property
     def rich_hdr_checksum(self):
-        offset = int(self.rich_hdr_offset, 16) + 4
+        offset = int(self.rich_hdr_offset[0], 16) + 4
         cs_unpacked = struct.unpack("L", self.data[offset:offset+4])
         checksum = hex(cs_unpacked[0])
         return checksum
