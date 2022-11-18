@@ -80,7 +80,7 @@ def print_headers():
 
     print("\n\nSection Data")
     print("-"*16)
-    print(p.get_section_data(2)["2"]["hexdump"])
+    print(p.get_section_data(2)["hexdump"])
 
 
 if __name__ == "__main__":

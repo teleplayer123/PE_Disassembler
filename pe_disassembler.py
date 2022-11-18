@@ -1,34 +1,124 @@
 from models.pe_file import PEFile
 
+from pprint import pformat
+import sys
 
+class PEDisassembler:
 
-class PEDisassembler(PEFile):
-
-    @property
-    def dos_header(self):
-        return self.dos_hdr_obj
-
-    @property
-    def coff_header(self):
-        return self.coff_hdr_obj
+    def __init__(self, filename: str, byteorder: str="little"):
+        self.pe = PEFile(filename, byteorder=byteorder)
 
     @property
-    def standard_fields(self):
-        return self.standard_fields_obj
+    def print_coff_hdr(self):
+        print("\n\nCOFF Header")
+        print("-"*16)
+        print(self.pe.coff_hdr)
 
     @property
-    def windows_fields(self):
-        return self.win_fields_obj
+    def print_standard_hdr(self):
+        print("\n\nStandard Header")
+        print("-"*16)
+        print(self.pe.standard_fields)
 
     @property
-    def data_directories(self):
-        return self.data_dir_obj
+    def print_win_hdr(self):
+        print("\n\nWindows Header")
+        print("-"*16)
+        print(self.pe.win_fields)
 
     @property
-    def section_table(self):
-        return self.section_table_obj
+    def print_data_dirs(self):
+        print("\n\nData Directories")
+        print("-"*16)
+        print(self.pe.data_directories)
 
-    def _find_rich_hdr(self):
-        data = self.data
-        sig_offset = int(self.coff_header.get_sig_offset, 16)
-        
+    @property
+    def print_section_hdrs(self):
+        print("\n\nSection Headers")
+        print("-"*16)
+        print(f"Number of Sections: {self.pe.num_of_sections}")
+        print("Section Header 1:")
+        print(self.pe.section_table)
+        num_sections = self.pe.num_of_sections
+        sect_offset = self.pe.sect_offset
+        last_offset = 0
+        for i in range(1, num_sections):
+            offset = (i * 40) + sect_offset
+            print(f"\nSection Header {i+1}:")
+            sect = self.pe.get_section_table_entry(offset)
+            print(sect)
+            last_offset = offset
+        return last_offset
+
+    @property
+    def get_section_dict(self):
+        num_sections = self.pe.num_of_sections
+        sect_offset = self.pe.sect_offset
+        sec_dict = self.pe.section_table_obj.get_sections(num_sections, sect_offset)
+        return sec_dict
+
+    @property
+    def print_section_dict(self):
+        sec_dict = self.get_section_dict()
+        print("\n\nSection Dictionary")
+        print("-"*16)
+        print(pformat(sec_dict))
+
+    def section_hexdump(self, offset: int):
+        hres = self.pe.dump_section(self.pe.data, offset)
+        return hres
+
+    def print_section_hexdump(self, offset: int):
+        hres = self.section_hexdump(offset)
+        print("\n\nSection HexDump Offset: {}".format(offset))
+        print("-"*16)
+        print(hres)
+    
+    @property
+    def print_dos_hdr_dump(self):
+        sig_offset = int(self.pe.coff_hdr_obj.get_sig_offset, 16)
+        offset = 0
+        print("\n\nDOS Header Data")
+        print("-"*16)
+        rhdr = self.pe.dump_section(self.pe.data, offset, sig_offset)
+        print(rhdr)
+
+    @property
+    def print_dos_hdr(self):
+        print("\n\nDOS Header")
+        print("-"*16)
+        print(self.pe.dos_hdr)   
+        print("Sig Offset {}".format(self.pe.coff_hdr_obj.sig_offset))
+
+    @property
+    def print_rich_hdr(self):
+        print("\n\nRich Header Offset")
+        print("-"*16)
+        print(self.pe.rich_hdr_offset)
+        print("\nRich Header Checksum")
+        print("-"*16)
+        print(self.pe.rich_hdr_checksum)
+
+    def print_section_data(self, sec_num: int):
+        print("\n\nSection Data")
+        print("-"*16)
+        print(self.pe.get_section_data(sec_num)["hexdump"])
+
+
+def main():
+    if len(sys.argv) < 2:
+        print(f"Usage: py {sys.argv[0]} <pefile_path>")
+        sys.exit()
+    fn = sys.argv[1]
+    p = PEDisassembler(fn)
+    p.print_dos_hdr
+    p.print_rich_hdr
+    p.print_coff_hdr
+    p.print_standard_hdr
+    p.print_win_hdr
+    p.print_data_dirs
+    p.print_section_hdrs
+    p.print_section_data(2)
+
+if __name__ == "__main__":
+    main()
