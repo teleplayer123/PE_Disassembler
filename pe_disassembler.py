@@ -81,13 +81,13 @@ class PEDisassembler:
         print("\n\nDOS Header Data")
         print("-"*16)
         rhdr = self.pe.dump_section(self.pe.data, offset, sig_offset)
-        pprint(rhdr)
+        print(rhdr)
 
     @property
     def print_dos_hdr(self):
         print("\n\nDOS Header")
         print("-"*16)
-        print(self.pe.dos_hdr)   
+        pprint(self.pe.dos_hdr)   
         print("Sig Offset {}".format(self.pe.coff_hdr_obj.sig_offset))
 
     @property

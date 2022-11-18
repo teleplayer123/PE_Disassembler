@@ -51,7 +51,7 @@ class PEBase(PEStruct):
         for i in range(1, nsize+1):
             mask = int("0x{}".format("f"*i), 16)
             j = (i * nsize) - nsize
-            x = ((n & mask) >> j) << j
+            x = ((n & mask) << j) >> j
             for k, v in val_dict.items():
                 if x == v:
                     vals.append(k)
