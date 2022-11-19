@@ -50,8 +50,8 @@ class PEBase(PEStruct):
         n = int(hexstr, 16)
         for i in range(1, nsize+1):
             mask = int("0x{}".format("f"*i), 16)
-            j = (i * nsize) - nsize
-            x = ((n & mask) << j) >> j
+            j = (i * 4) - 4
+            x = ((n & mask) >> j) << j
             for k, v in val_dict.items():
                 if x == v:
                     vals.append(k)
