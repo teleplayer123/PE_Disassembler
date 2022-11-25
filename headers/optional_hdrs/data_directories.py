@@ -5,7 +5,7 @@ import ctypes
 
 class DataDirField(ctypes.Structure):
 
-    __fields__ = [
+    _fields_ = [
         ("VirtualAddress", ctypes.c_uint32),
         ("Size", ctypes.c_uint32)
     ]

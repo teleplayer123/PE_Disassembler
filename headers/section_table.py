@@ -93,7 +93,7 @@ class SectionTable(PEBase):
 
 class RelocRecord(ctypes.Structure):
 
-    __fields__ = [
+    _fields_ = [
         ("VirtualAddress", ctypes.c_uint32),
         ("SymbolTableIndex", ctypes.c_uint32),
         ("Type", ctypes.c_uint16)
