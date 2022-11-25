@@ -17,7 +17,7 @@ class IntelHexFile:
 
     def __init__(self, filename):
         self.data = self._read_hex_file(filename)
-        self.records = []
+        self.records = self.unpack_data()
 
     def _read_hex_file(self, filename):
         data = []
@@ -50,6 +50,12 @@ class IntelHexFile:
         rec.checksum = rec_chksum
         return rec
 
+    def unpack_data(self):
+        records = []
+        for rec in self.data:
+            r = self.unpack_rec(rec)
+            records.append(r)
+        return records
     
 
     
