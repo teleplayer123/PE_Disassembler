@@ -1,16 +1,15 @@
 import struct
 import ctypes
+from typing import NamedTuple
 
 
-class DataRecord(ctypes.Structure):
+class DataRecord(NamedTuple):
 
-    _fields_ = [
-        ("length", ctypes.c_uint8),
-        ("load_addr", ctypes.c_uint16),
-        ("type", ctypes.c_uint8),
-        ("data", ctypes.POINTER(ctypes.c_ubyte)),
-        ("checksum", ctypes.c_uint8)
-    ]
+    length: ctypes.c_uint8
+    load_addr: ctypes.c_uint16
+    rec_type: ctypes.c_uint8
+    data: list
+    checksum: ctypes.c_uint8
 
 
 class IntelHexFile:
@@ -33,21 +32,16 @@ class IntelHexFile:
         return int(h, 16)
 
     def unpack_rec(self, rec_entry):
-        rec = DataRecord()
+
         rec_hdr_struct = struct.Struct("2s4s2s")
         rec_hdr = rec_hdr_struct.unpack(rec_entry[:rec_hdr_struct.size])
         rec_len = self.bin2hex(rec_hdr[0])
         rec_laddr = self.bin2hex(rec_hdr[1])
         rec_type = self.bin2hex(rec_hdr[2])
-        rec_data_struct = struct.Struct("{}B".format(rec_len))
+        rec_data_struct = struct.Struct("{}s".format(rec_len))
         rec_data = rec_data_struct.unpack(rec_entry[8:8+rec_len])
         rec_chksum = self.bin2hex(struct.unpack("2s", rec_entry[-2:])[0])
-        rec_data = (ctypes.c_ubyte * rec_len)(*rec_data)
-        rec.length = rec_len
-        rec.load_addr = rec_laddr
-        rec.type = rec_type
-        rec.data = rec_data
-        rec.checksum = rec_chksum
+        rec = DataRecord(rec_len, rec_laddr, rec_type, rec_data, rec_chksum)
         return rec
 
     def unpack_data(self):
