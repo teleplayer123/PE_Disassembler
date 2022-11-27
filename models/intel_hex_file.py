@@ -11,6 +11,15 @@ class DataRecord(NamedTuple):
     data: list
     checksum: ctypes.c_uint8
 
+    def __str__(self):
+        return f"""
+        Length: {hex(self.length)}
+        Load Address: {hex(self.load_addr)}
+        Type: {hex(self.rec_type)}
+        Data: 0x{self.data.decode()}
+        Checksum: {hex(self.checksum)}
+        """
+
 
 class IntelHexFile:
 
@@ -39,7 +48,7 @@ class IntelHexFile:
         rec_laddr = self.bin2hex(rec_hdr[1])
         rec_type = self.bin2hex(rec_hdr[2])
         rec_data_struct = struct.Struct("{}s".format(rec_len))
-        rec_data = rec_data_struct.unpack(rec_entry[8:8+rec_len])
+        rec_data = rec_data_struct.unpack(rec_entry[8:8+rec_len])[0]
         rec_chksum = self.bin2hex(struct.unpack("2s", rec_entry[-2:])[0])
         rec = DataRecord(rec_len, rec_laddr, rec_type, rec_data, rec_chksum)
         return rec
