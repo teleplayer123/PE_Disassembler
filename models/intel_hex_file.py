@@ -11,7 +11,7 @@ class DataRecord(NamedTuple):
     data: list
     checksum: ctypes.c_uint8
 
-    def __str__(self):
+    def __repr__(self):
         return f"""
         Length: {hex(self.length)}
         Load Address: {hex(self.load_addr)}
@@ -60,5 +60,10 @@ class IntelHexFile:
             records.append(r)
         return records
     
+    def __str__(self):
+        res = {}
+        for i, v in enumerate(self.records):
+            res[str(i)] = repr(v)
+        return res
 
     
