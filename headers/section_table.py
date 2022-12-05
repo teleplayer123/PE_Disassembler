@@ -133,3 +133,27 @@ class COFFRelocations:
                 break
         return res
 
+    def get_type_arm(self, hexstr: str):
+        res = None
+        n = int(hexstr, 16)
+        type_dict = {
+            "IMAGE_REL_ARM_ABSOLUTE": 0x0000,
+            "IMAGE_REL_ARM_ADDR32": 0x0001,
+            "IMAGE_REL_ARM_ADDR32NB": 0x0002,
+            "IMAGE_REL_ARM_BRANCH24": 0x0003,
+            "IMAGE_REL_ARM_BRANCH11": 0x0004,
+            "IMAGE_REL_ARM_REL32": 0x000A,
+            "IMAGE_REL_ARM_SECTION": 0x000E,
+            "IMAGE_REL_ARM_SECREL": 0x000F,
+            "IMAGE_REL_ARM_MOV32": 0x0010,
+            "IMAGE_REL_THUMB_MOV32": 0x0011,
+            "IMAGE_REL_THUMB_BRANCH20": 0x0012,
+            "IMAGE_REL_THUMB_BRANCH24": 0x0014,
+            "IMAGE_REL_THUMB_BLX23": 0x0015,
+            "IMAGE_REL_ARM_PAIR": 0x0016
+        }
+        for k, v in type_dict.items():
+            if n == v:
+                res = k
+                break
+        return res
