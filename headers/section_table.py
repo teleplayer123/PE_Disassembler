@@ -2,6 +2,7 @@ from pe_base.pe_base import PEBase
 
 import struct
 import ctypes
+from typing import NamedTuple
 
 
 class SectionTable(PEBase):
@@ -91,19 +92,37 @@ class SectionTable(PEBase):
         return section_dict
 
 
-class RelocRecord(ctypes.Structure):
+class RelocRecord(NamedTuple):
 
-    _fields_ = [
-        ("VirtualAddress", ctypes.c_uint32),
-        ("SymbolTableIndex", ctypes.c_uint32),
-        ("Type", ctypes.c_uint16)
-    ]
+    VirtualAddress: str
+    SymbolTableIndex: str
+    Type: str
 
 
 class COFFRelocations:
 
-    def __init__(self, sectable_dict: dict):
+    def __init__(self, sectable_dict: dict, raw_data):
         self.section_table = sectable_dict
+        self.raw_data = raw_data
+        self.RELOC_STRUCT = struct.Struct("2LH")
+
+    def get_sect_reloc(self, sec_num: int):
+        reloc_dict = {}
+        sect_dict = self.section_table[str(sec_num)]
+        num_relocs = sect_dict["number_of_relocations"]
+        if int(num_relocs) == 0:
+            return None
+        reloc_ptr = int(sect_dict["ptr_to_relocations"], 16)
+        for i in range(1, int(num_relocs)+1):
+            reloc_rec = RelocRecord()
+            reloc_end = int(i * self.RELOC_STRUCT.size) + reloc_ptr
+            reloc_raw_data = self.raw_data[reloc_ptr:reloc_end]
+            reloc_data = self.RELOC_STRUCT.unpack(reloc_raw_data)
+            reloc_rec.VirtualAddress = hex(reloc_data[0])
+            reloc_rec.SymbolTableIndex = hex(reloc_data[1])
+            reloc_rec.Type = hex(reloc_data[2])
+            reloc_dict[str(i)] = reloc_rec
+        return reloc_dict
 
     def get_type64(self, hexstr: str):
         res = None
