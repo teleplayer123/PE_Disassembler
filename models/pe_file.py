@@ -85,9 +85,9 @@ class PEFile:
         data_dirs = self.data_dir_obj.convert_entries_to_obj()
         return data_dirs
 
-    def get_import_table(self, hexstr: str):
-        dd = self.data_dir_obj._import_lookup_table(hexstr)
-        return dd
+    def get_import_table(self):
+        import_table = self.data_dir_obj.import_table_dir()
+        return import_table
 
     def get_section_data(self, sec_num: int):
         sec_data = {}

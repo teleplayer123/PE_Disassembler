@@ -85,20 +85,27 @@ class DataDirectories(PEBase):
         return obj_dict
 
     def import_table_dir(self):
-        idata_dict = {}
+        import_table_dict = {}
         idata_struct = struct.Struct("5L")
         idata_dir = self.convert_entries_to_obj()["import_table"]
-        idata_start = int(idata_dir.VirtualAddress, 16)
-        idata_size = int(idata_dir.Size, 16)
-        idata_end = idata_start + idata_size
-        raw_idata = self.data[idata_start:idata_end]
-        idata = idata_struct.unpack(raw_idata)
-        idata_dict["ImportLookupTable_RVA"] = hex(idata[0])
-        idata_dict["TimeDateStamp"] = hex(idata[1])
-        idata_dict["ForwarderChain"] = hex(idata[2])
-        idata_dict["Name_RVA"] = hex(idata[3])
-        idata_dict["ImportAddressTable_RVA"] = self._import_lookup_table(hex(idata[4]))
-        return idata_dict
+        table_start = int(idata_dir.VirtualAddress, 16)
+        table_size = int(idata_dir.Size, 16)
+        table_end = table_start + table_size
+        idata_ptr = table_start
+        while True:
+            if idata_ptr > table_end:
+                break
+            idata_dict = {}
+            data = self.data[idata_ptr:idata_ptr+idata_struct.size]
+            idata = idata_struct.unpack(data)
+            idata_dict["ImportLookupTable_RVA"] = hex(idata[0])
+            idata_dict["TimeDateStamp"] = hex(idata[1])
+            idata_dict["ForwarderChain"] = hex(idata[2])
+            idata_dict["Name_RVA"] = hex(idata[3])
+            idata_dict["ImportAddressTable_RVA"] = self._import_lookup_table(hex(idata[4]))
+            import_table_dict[hex(idata_ptr)] = idata_dict
+            idata_ptr += idata_struct.size
+        return import_table_dict
 
     def _import_lookup_table(self, hexstr: str):
         arch = self.get_arch_type()
