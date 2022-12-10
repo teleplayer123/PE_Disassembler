@@ -93,8 +93,8 @@ class DataDirectories(PEBase):
         idata_dict["TimeDateStamp"] = hex(idata[1])
         idata_dict["ForwarderChain"] = hex(idata[2])
         idata_dict["Name_RVA"] = hex(idata[3])
-        idata_dict["ImportAddressTable_RVA"] = hex(idata[4])
+        idata_dict["ImportAddressTable_RVA"] = self._import_lookup_table(hex(idata[4]))
         return idata_dict
 
-    def import_lookup_table(self):
+    def _import_lookup_table(self, hexstr: str):
         pass
