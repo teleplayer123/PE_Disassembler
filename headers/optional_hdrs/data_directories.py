@@ -111,6 +111,7 @@ class DataDirectories(PEBase):
         arch = self.get_arch_type()
         arch64 = False
         is_ord = False
+        ref_data = None
         if arch == "PE32":
             ilt_struct = struct.Struct("L")
             bit_mask = 0x80000000
