@@ -1,6 +1,8 @@
 from pe_base.pe_base import PEBase
 
 import ctypes
+import struct
+from typing import NamedTuple
 
 
 class DataDirField(ctypes.Structure):
@@ -10,6 +12,10 @@ class DataDirField(ctypes.Structure):
         ("Size", ctypes.c_uint32)
     ]
 
+class DataDir(NamedTuple):
+
+    VirtualAddress: str
+    Size: str
 
 class DataDirectories(PEBase):
 
@@ -64,3 +70,31 @@ class DataDirectories(PEBase):
             struct_dict[str(hdr_idx_lst[i])] = ddf
         return struct_dict
 
+    def convert_entries_to_obj(self):
+        obj_dict = {}
+        hdr_dict = self.get_data_directories()
+        hdr_val_lst = list(hdr_dict.values())
+        hdr_idx_lst = list(hdr_dict.keys())
+        for i in range(0, len(hdr_val_lst)-1, 2):
+            ddf = DataDir(hdr_val_lst[i], hdr_val_lst[i+1])
+            obj_dict[str(hdr_idx_lst[i])] = ddf
+        return obj_dict
+
+    def import_table_dir(self):
+        idata_dict = {}
+        idata_struct = struct.Struct("5L")
+        idata_dir = self.convert_entries_to_obj()["import_table"]
+        idata_start = int(idata_dir.VirtualAddress, 16)
+        idata_size = int(idata_dir.Size, 16)
+        idata_end = idata_start + idata_size
+        raw_idata = self.data[idata_start:idata_end]
+        idata = idata_struct.unpack(raw_idata)
+        idata_dict["ImportLookupTable_RVA"] = hex(idata[0])
+        idata_dict["TimeDateStamp"] = hex(idata[1])
+        idata_dict["ForwarderChain"] = hex(idata[2])
+        idata_dict["Name_RVA"] = hex(idata[3])
+        idata_dict["ImportAddressTable_RVA"] = hex(idata[4])
+        return idata_dict
+
+    def import_lookup_table(self):
+        pass

@@ -80,6 +80,11 @@ class PEFile:
         checksum = hex(cs_unpacked[0])
         return checksum
 
+    @property
+    def get_data_dirs(self):
+        data_dirs = self.data_dir_obj.convert_entries_to_obj()
+        return data_dirs
+
     def get_section_data(self, sec_num: int):
         sec_data = {}
         sec_dict = self.section_table_obj.get_sections(self.num_of_sections, self.sect_offset)

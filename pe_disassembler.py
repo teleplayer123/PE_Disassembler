@@ -33,6 +33,12 @@ class PEDisassembler:
         pprint(self.pe.data_directories)
 
     @property
+    def print_data_dir_objects(self):
+        print("\n\nData Directory Objects")
+        print("-"*16)
+        print(self.pe.get_data_dirs)
+
+    @property
     def print_section_hdrs(self):
         print("\n\nSection Headers")
         print("-"*16)
