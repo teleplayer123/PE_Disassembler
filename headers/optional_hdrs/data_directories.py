@@ -58,6 +58,10 @@ class DataDirectories(PEBase):
         data_dir["reserved_size"] = hex(data[31])
         return data_dir
 
+    @property
+    def idata_dict(self):
+        return self.import_table_dir()
+
     def convert_entries_to_struct(self):
         struct_dict = {}
         hdr_dict = self.get_data_directories()
@@ -97,4 +101,33 @@ class DataDirectories(PEBase):
         return idata_dict
 
     def _import_lookup_table(self, hexstr: str):
-        pass
+        arch = self.get_arch_type()
+        arch64 = False
+        is_ord = False
+        if arch == "PE32":
+            ilt_struct = struct.Struct("L")
+            bit_mask = 0x80000000
+        elif arch == "PE32+":
+            ilt_struct = struct.Struct("Q")
+            bit_mask = 0x8000000000000000
+            arch64 = True
+        ilt_start = int(hexstr, 16)
+        ilt_raw_data = self.data[ilt_start:ilt_start+ilt_struct.size]
+        ilt_data = hex(ilt_struct.unpack(ilt_raw_data)[0])
+        ilt_data_int = int(ilt_data, 16)
+        flag_bit = ilt_data_int & bit_mask
+        if flag_bit == 0:
+            is_ord = False
+            if arch64 == True:
+                ref_data = "0x{:<063x}".format(ilt_data_int)
+            else:
+                ref_data = "0x{:<031x}".format(ilt_data_int)
+        elif flag_bit == 1:
+            is_ord = True
+            if arch64 == True:
+                ord_data = ilt_data_int >> 48
+                ref_data = "0x{:<063x}".format(ord_data)
+            else:
+                ord_data = ilt_data_int >> 16
+                ref_data = "0x{:<031x}".format(ord_data)
+        return is_ord, ref_data
