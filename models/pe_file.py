@@ -89,6 +89,10 @@ class PEFile:
         import_table = self.data_dir_obj.import_table_dir()
         return import_table
 
+    def get_export_table(self):
+        export_table = self.data_dir_obj.export_table_dir()
+        return export_table
+
     def get_section_data(self, sec_num: int):
         sec_data = {}
         sec_dict = self.section_table_obj.get_sections(self.num_of_sections, self.sect_offset)

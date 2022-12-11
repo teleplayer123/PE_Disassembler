@@ -119,6 +119,15 @@ class PEDisassembler:
         except Exception:
             print("\nNO IMPORT TABLE")
 
+    @property
+    def print_export_table(self):
+        try:
+            print("\n\nExport Table")
+            print("-"*16)
+            print(self.pe.get_export_table())
+        except Exception:
+            print("\nNO EXPORT TABLE")
+
 def main():
     if len(sys.argv) < 2:
         print(f"Usage: py {sys.argv[0]} <pefile_path>")
@@ -133,6 +142,7 @@ def main():
     p.print_data_dirs
     p.print_section_hdrs
     p.print_import_table
+    p.print_export_table
 
 if __name__ == "__main__":
     main()
