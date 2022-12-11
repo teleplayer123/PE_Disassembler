@@ -84,6 +84,10 @@ class DataDirectories(PEBase):
             obj_dict[str(hdr_idx_lst[i])] = ddf
         return obj_dict
 
+    def export_table_dir(self):
+        export_table_dict = {}
+        edata_struct = struct.Struct("2L2H7L")
+
     def import_table_dir(self):
         import_table_dict = {}
         idata_struct = struct.Struct("5L")
@@ -102,7 +106,8 @@ class DataDirectories(PEBase):
             idata_dict["TimeDateStamp"] = hex(idata[1])
             idata_dict["ForwarderChain"] = hex(idata[2])
             idata_dict["Name_RVA"] = hex(idata[3])
-            idata_dict["ImportAddressTable_RVA"] = self._import_lookup_table(hex(idata[4]))
+            is_ord, iat_rva = self._import_lookup_table(hex(idata[4]))
+            idata_dict["ImportAddressTable_RVA"] = iat_rva
             import_table_dict[hex(idata_ptr)] = idata_dict
             idata_ptr += idata_struct.size
         return import_table_dict
