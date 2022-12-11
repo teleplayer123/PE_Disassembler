@@ -85,32 +85,29 @@ class DataDirectories(PEBase):
         return obj_dict
 
     def export_table_dir(self):
-        export_table_dict = {}
+        edata_dict = {}
         edata_struct = struct.Struct("2L2H7L")
         edata_dir = self.convert_entries_to_obj()["export_table"]
         table_start = int(edata_dir.VirtualAddress, 16)
         table_size = int(edata_dir.Size, 16)
         table_end = table_start + table_size
         edata_ptr = table_start
-        while True:
-            if edata_ptr > table_end:
-                break
-            edata_dict = {}
-            edata = edata_struct.unpack(self.data[edata_ptr:edata_ptr+edata_struct.size])
-            edata_dict["ExportFlags"] = hex(edata[0])
-            edata_dict["TimeDateStamp"] = hex(edata[1])
-            edata_dict["MajorVersion"] = hex(edata[2])
-            edata_dict["MinorVersion"] = hex(edata[3])
-            edata_dict["Name_RVA"] = hex(edata[4])
-            edata_dict["OrdinalBase"] = hex(edata[5])
-            edata_dict["AddressTaableEntries"] = hex(edata[6])
-            edata_dict["NumberOfNamePointers"] = hex(edata[7])
-            edata_dict["ExportAddressTable_RVA"] = hex(edata[8])
-            edata_dict["NamePointer_RVA"] = hex(edata[9])
-            edata_dict["OrdinalTable_RVA"] = hex(edata[10])
-            export_table_dict[hex(edata_ptr)] = edata_dict
-            edata_ptr += edata_struct.size
-        return export_table_dict
+        edata = edata_struct.unpack(self.data[edata_ptr:edata_ptr+edata_struct.size])
+        edata_dict["ExportFlags"] = hex(edata[0])
+        edata_dict["TimeDateStamp"] = hex(edata[1])
+        edata_dict["MajorVersion"] = hex(edata[2])
+        edata_dict["MinorVersion"] = hex(edata[3])
+        edata_dict["Name_RVA"] = hex(edata[4])
+        edata_dict["OrdinalBase"] = hex(edata[5])
+        edata_dict["AddressTaableEntries"] = hex(edata[6])
+        edata_dict["NumberOfNamePointers"] = hex(edata[7])
+        edata_dict["ExportAddressTable_RVA"] = hex(edata[8])
+        edata_dict["NamePointer_RVA"] = hex(edata[9])
+        edata_dict["OrdinalTable_RVA"] = hex(edata[10])
+        return edata_dict
+
+    def _export_addr_table(self, hexstr: str):
+        eat_struct = struct.Struct("2L")
 
     def import_table_dir(self):
         import_table_dict = {}
