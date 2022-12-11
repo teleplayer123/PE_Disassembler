@@ -115,7 +115,7 @@ class PEDisassembler:
         try:
             print("\n\nImport Table")
             print("-"*16)
-            print(self.pe.get_import_table())
+            pprint(self.pe.get_import_table(), sort_dicts=False)
         except Exception:
             print("\nNO IMPORT TABLE")
 
@@ -124,7 +124,7 @@ class PEDisassembler:
         try:
             print("\n\nExport Table")
             print("-"*16)
-            print(self.pe.get_export_table())
+            pprint(self.pe.get_export_table(), sort_dicts=False)
         except Exception:
             print("\nNO EXPORT TABLE")
 
