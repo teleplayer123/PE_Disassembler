@@ -21,7 +21,7 @@ class COFFHeader(PEBase):
         coff_hdr["time_date_stamp"] = int(hex(coff_data[3]), 16)
         coff_hdr["ptr_to_symbol_table"] = hex(coff_data[4])
         coff_hdr["number_of_symbol_tables"] = int(hex(coff_data[5]), 16)
-        coff_hdr["sizeof_optional_hdr"] = int(hex(coff_data[6]), 16)
+        coff_hdr["sizeof_optional_hdr"] = hex(coff_data[6])
         coff_hdr["characteristics"] = f"{str(self.get_characteristics(hex(coff_data[7])))}: {hex(coff_data[7])}"
         return coff_hdr
 

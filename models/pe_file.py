@@ -55,7 +55,7 @@ class PEFile:
 
     @property
     def sizeof_opt_hdr(self):
-        sizeof_opt_hdr = self.coff_hdr["sizeof_optional_hdr"]
+        sizeof_opt_hdr = int(self.coff_hdr["sizeof_optional_hdr"], 16)
         return sizeof_opt_hdr
 
     @property

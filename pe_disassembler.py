@@ -12,31 +12,31 @@ class PEDisassembler:
     def print_coff_hdr(self):
         print("\n\nCOFF Header")
         print("-"*16)
-        pprint(self.pe.coff_hdr)
+        pprint(self.pe.coff_hdr, sort_dicts=False)
 
     @property
     def print_standard_hdr(self):
         print("\n\nStandard Header")
         print("-"*16)
-        pprint(self.pe.standard_fields)
+        pprint(self.pe.standard_fields, sort_dicts=False)
 
     @property
     def print_win_hdr(self):
         print("\n\nWindows Header")
         print("-"*16)
-        pprint(self.pe.win_fields)
+        pprint(self.pe.win_fields, sort_dicts=False)
 
     @property
     def print_data_dirs(self):
         print("\n\nData Directories")
         print("-"*16)
-        pprint(self.pe.data_directories)
+        pprint(self.pe.data_directories, sort_dicts=False)
 
     @property
     def print_data_dir_objects(self):
         print("\n\nData Directory Objects")
         print("-"*16)
-        print(self.pe.get_data_dirs)
+        print(self.pe.get_data_dirs, sort_dicts=False)
 
     @property
     def print_section_hdrs(self):
@@ -44,7 +44,7 @@ class PEDisassembler:
         print("-"*16)
         print(f"Number of Sections: {self.pe.num_of_sections}")
         print("Section Header 1:")
-        pprint(self.pe.section_table)
+        pprint(self.pe.section_table, sort_dicts=False)
         num_sections = self.pe.num_of_sections
         sect_offset = self.pe.sect_offset
         last_offset = 0
@@ -52,7 +52,7 @@ class PEDisassembler:
             offset = (i * 40) + sect_offset
             print(f"\nSection Header {i+1}:")
             sect = self.pe.get_section_table_entry(offset)
-            pprint(sect)
+            pprint(sect, sort_dicts=False)
             last_offset = offset
         return last_offset
 
@@ -68,7 +68,7 @@ class PEDisassembler:
         sec_dict = self.get_section_dict()
         print("\n\nSection Dictionary")
         print("-"*16)
-        print(pformat(sec_dict))
+        print(pformat(sec_dict, sort_dicts=False))
 
     def section_hexdump(self, offset: int):
         hres = self.pe.dump_section(self.pe.data, offset)
@@ -93,7 +93,7 @@ class PEDisassembler:
     def print_dos_hdr(self):
         print("\n\nDOS Header")
         print("-"*16)
-        pprint(self.pe.dos_hdr)   
+        pprint(self.pe.dos_hdr, sort_dicts=False)   
         print("Sig Offset {}".format(self.pe.coff_hdr_obj.sig_offset))
 
     @property
