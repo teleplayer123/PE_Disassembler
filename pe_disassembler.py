@@ -112,9 +112,12 @@ class PEDisassembler:
 
     @property
     def print_import_table(self):
-        print("\n\nImport Table")
-        print("-"*16)
-        print(self.pe.get_import_table())
+        try:
+            print("\n\nImport Table")
+            print("-"*16)
+            print(self.pe.get_import_table())
+        except Exception:
+            print("\nNO IMPORT TABLE")
 
 def main():
     if len(sys.argv) < 2:
