@@ -153,15 +153,15 @@ class DataDirectories(PEBase):
         if flag_bit == 0:
             is_ord = False
             if arch64 == True:
-                ref_data = "0x{:<063x}".format(ilt_data_int)
+                ref_data = hex(ilt_data_int)
             else:
-                ref_data = "0x{:<031x}".format(ilt_data_int)
+                ref_data = hex(ilt_data_int)
         elif flag_bit == 1:
             is_ord = True
             if arch64 == True:
                 ord_data = ilt_data_int >> 48
-                ref_data = "0x{:<063x}".format(ord_data)
+                ref_data = hex(ord_data)
             else:
                 ord_data = ilt_data_int >> 16
-                ref_data = "0x{:<031x}".format(ord_data)
+                ref_data = hex(ord_data)
         return is_ord, ref_data
