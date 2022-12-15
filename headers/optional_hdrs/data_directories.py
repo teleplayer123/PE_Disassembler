@@ -131,7 +131,6 @@ class DataDirectories(PEBase):
             import_table_dict[hex(idata_ptr)] = idata_dict
             idata_ptr += idata_struct.size
             is_ord, ilt_val = self._import_lookup_table(hex(idata[0]))
-            print(f"ILT: {ilt_val}")
         return import_table_dict
 
     def _import_lookup_table(self, hexstr: str):
