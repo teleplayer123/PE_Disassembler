@@ -127,10 +127,11 @@ class DataDirectories(PEBase):
             idata_dict["TimeDateStamp"] = hex(idata[1])
             idata_dict["ForwarderChain"] = hex(idata[2])
             idata_dict["Name_RVA"] = hex(idata[3])
-            is_ord, iat_rva = self._import_lookup_table(hex(idata[4]))
             idata_dict["ImportAddressTable_RVA"] = hex(idata[4])
             import_table_dict[hex(idata_ptr)] = idata_dict
             idata_ptr += idata_struct.size
+            is_ord, ilt_val = self._import_lookup_table(hex(idata[0]))
+            print(f"ILT: {ilt_val}")
         return import_table_dict
 
     def _import_lookup_table(self, hexstr: str):
@@ -147,6 +148,8 @@ class DataDirectories(PEBase):
             arch64 = True
         ilt_start = int(hexstr, 16)
         ilt_raw_data = self.data[ilt_start:ilt_start+ilt_struct.size]
+        if len(ilt_raw_data) == 0:
+            return  False ,None
         ilt_data = hex(ilt_struct.unpack(ilt_raw_data)[0])
         ilt_data_int = int(ilt_data, 16)
         flag_bit = ilt_data_int & bit_mask
