@@ -99,7 +99,7 @@ class DataDirectories(PEBase):
         edata_dict["MinorVersion"] = hex(edata[3])
         edata_dict["Name_RVA"] = hex(edata[4])
         edata_dict["OrdinalBase"] = hex(edata[5])
-        edata_dict["AddressTaableEntries"] = hex(edata[6])
+        edata_dict["AddressTableEntries"] = hex(edata[6])
         edata_dict["NumberOfNamePointers"] = hex(edata[7])
         edata_dict["ExportAddressTable_RVA"] = hex(edata[8])
         edata_dict["NamePointer_RVA"] = hex(edata[9])
@@ -126,11 +126,15 @@ class DataDirectories(PEBase):
             idata_dict["ImportLookupTable_RVA"] = hex(idata[0])
             idata_dict["TimeDateStamp"] = hex(idata[1])
             idata_dict["ForwarderChain"] = hex(idata[2])
-            idata_dict["Name_RVA"] = hex(idata[3])
+            idata_dict["Name_RVA"] = hex(idata[3])            
             idata_dict["ImportAddressTable_RVA"] = hex(idata[4])
+            is_ord, iat_val = self._import_lookup_table(hex(idata[0]))
+            if is_ord == True:
+                idata_dict["Ordinal"] = iat_val
+            else:
+                idata_dict["HintName"] = iat_val
             import_table_dict[hex(idata_ptr)] = idata_dict
             idata_ptr += idata_struct.size
-            is_ord, ilt_val = self._import_lookup_table(hex(idata[0]))
         return import_table_dict
 
     def _import_lookup_table(self, hexstr: str):
@@ -148,7 +152,7 @@ class DataDirectories(PEBase):
         ilt_start = int(hexstr, 16)
         ilt_raw_data = self.data[ilt_start:ilt_start+ilt_struct.size]
         if len(ilt_raw_data) == 0:
-            return  False ,None
+            return (False, None)
         ilt_data = hex(ilt_struct.unpack(ilt_raw_data)[0])
         ilt_data_int = int(ilt_data, 16)
         flag_bit = ilt_data_int & bit_mask
