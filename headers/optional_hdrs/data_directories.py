@@ -118,11 +118,13 @@ class DataDirectories(PEBase):
         table_end = table_start + table_size
         idata_ptr = table_start
         while True:
-            if idata_ptr > table_end:
-                break
             idata_dict = {}
             data = self.data[idata_ptr:idata_ptr+idata_struct.size]
+            print(f"Data: {data}")
             idata = idata_struct.unpack(data)
+            print(f"iData: {idata}")
+            if sum(int(hex(x), 16) for x in idata) == 0:
+                break
             idata_dict["ImportLookupTable_RVA"] = hex(idata[0])
             idata_dict["TimeDateStamp"] = hex(idata[1])
             idata_dict["ForwarderChain"] = hex(idata[2])
