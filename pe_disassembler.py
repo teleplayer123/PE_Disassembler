@@ -111,6 +111,14 @@ class PEDisassembler:
         print(self.pe.get_section_data(sec_num)["hexdump"])
 
     @property
+    def print_section_names(self):
+        names = self.pe.section_names
+        print("\n\nSection Names")
+        print("-"*16)
+        for name in names:
+            print(f"\t{name}")
+
+    @property
     def print_import_table(self):
         try:
             print("\n\nImport Table")
@@ -141,6 +149,7 @@ def main():
     p.print_win_hdr
     p.print_data_dirs
     p.print_section_hdrs
+    p.print_section_names
 
 if __name__ == "__main__":
     main()

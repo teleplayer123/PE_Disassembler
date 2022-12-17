@@ -12,10 +12,14 @@ class SectionTable(PEBase):
     Each table entry has a size of 40 bytes. The format is shown in the get_section_table method.
     """
 
+    SECTION_NAMES = []
+
     def get_section_table(self, offset: int):
         section_table = {}
         data = self.SECTION_TABLE_STRUCT.unpack(self.data[offset:offset+self.SECTION_TABLE_STRUCT.size])
-        section_table["name"] = f"{self.decode_name(hex(data[0]))}: {hex(data[0])}"
+        sect_name = self.decode_name(hex(data[0]))
+        self.SECTION_NAMES.append(sect_name)
+        section_table["name"] = f"{sect_name}: {hex(data[0])}"
         section_table["virtual_size"] = int(hex(data[1]), 16)
         section_table["virtual_addr"] = hex(data[2])
         section_table["sizeof_raw_data"] = hex(data[3])
