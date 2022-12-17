@@ -71,3 +71,12 @@ class PEBase(PEStruct):
         }
         res = self.hexstr2val(hexstr, magic_nums)
         return res
+
+    def decode_hexstr(self, hexstr: str):
+        res = ""
+        hexstr = hexstr[2:]
+        for i in range(0, len(hexstr), 2):
+            c = "0x{}{}".format(hexstr[i], hexstr[i+1])
+            c = chr(int(c, 16))
+            res = str(c) + res
+        return res

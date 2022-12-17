@@ -120,15 +120,13 @@ class DataDirectories(PEBase):
         while True:
             idata_dict = {}
             data = self.data[idata_ptr:idata_ptr+idata_struct.size]
-            print(f"Data: {data}")
             idata = idata_struct.unpack(data)
-            print(f"iData: {idata}")
             if sum(int(hex(x), 16) for x in idata) == 0:
                 break
             idata_dict["ImportLookupTable_RVA"] = hex(idata[0])
             idata_dict["TimeDateStamp"] = hex(idata[1])
             idata_dict["ForwarderChain"] = hex(idata[2])
-            idata_dict["Name_RVA"] = hex(idata[3])            
+            idata_dict["Name_RVA"] = hex(idata[3])
             idata_dict["ImportAddressTable_RVA"] = hex(idata[4])
             is_ord, iat_val = self._import_lookup_table(hex(idata[0]))
             if is_ord == True:
