@@ -76,7 +76,7 @@ class PEDisassembler:
 
     def print_section_hexdump(self, offset: int):
         hres = self.section_hexdump(offset)
-        print("\n\nSection HexDump Offset: {}".format(offset))
+        print("\n\nSection HexDump Offset: {}".format(hex(offset)))
         print("-"*16)
         print(hres)
 
@@ -158,7 +158,7 @@ def main():
     p.print_section_names
     p.print_import_table
     p.print_export_table
-    p.print_hexdump(0x13f000, 8684, hdr_str="idata HexDump")
+    p.print_hexdump(0xae9000, 104834, hdr_str="INITKDBG")
 
 if __name__ == "__main__":
     main()
