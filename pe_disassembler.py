@@ -79,6 +79,12 @@ class PEDisassembler:
         print("\n\nSection HexDump Offset: {}".format(offset))
         print("-"*16)
         print(hres)
+
+    def print_hexdump(self, offset: int, size: int, hdr_str: str="Data HexDump"):
+        hres = self.pe.dump_section(self.pe.data, offset=offset, sec_size=size)
+        print(f"\n\n{hdr_str}")
+        print("-"*16)
+        print(hres)
     
     @property
     def print_dos_hdr_dump(self):
@@ -152,6 +158,7 @@ def main():
     p.print_section_names
     p.print_import_table
     p.print_export_table
+    p.print_hexdump(0x13f000, 8684, hdr_str="idata HexDump")
 
 if __name__ == "__main__":
     main()
