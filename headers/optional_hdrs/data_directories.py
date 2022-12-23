@@ -130,9 +130,11 @@ class DataDirectories(PEBase):
             idata_dict["ImportAddressTable_RVA"] = hex(idata[4])
             is_ord, iat_val = self._import_lookup_table(hex(idata[0]))
             if is_ord == True:
-                idata_dict["Ordinal"] = iat_val
+                if iat_val != None:
+                    idata_dict["Ordinal"] = iat_val
             else:
-                idata_dict["HintName"] = iat_val
+                if iat_val != None:
+                    idata_dict["HintName"] = iat_val
             import_table_dict[hex(idata_ptr)] = idata_dict
             idata_ptr += idata_struct.size
         return import_table_dict

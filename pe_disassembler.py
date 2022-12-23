@@ -150,6 +150,8 @@ def main():
     p.print_data_dirs
     p.print_section_hdrs
     p.print_section_names
+    p.print_import_table
+    p.print_export_table
 
 if __name__ == "__main__":
     main()
