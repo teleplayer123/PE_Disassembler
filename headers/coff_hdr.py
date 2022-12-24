@@ -1,5 +1,7 @@
 from pe_base.pe_base import PEBase
 
+import struct
+
 
 class COFFHeader(PEBase):
 

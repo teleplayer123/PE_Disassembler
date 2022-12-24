@@ -6,7 +6,6 @@ from headers.coff_hdr import COFFHeader
 from headers.section_table import SectionTable
 from tools.hexdump import xdump
 
-from collections import defaultdict
 import struct
 
 
@@ -47,6 +46,10 @@ class PEFile:
         except IndexError:
             print("Data not available at offset {}".format(offset))
             return
+
+    @property
+    def coff_ptr_to_sym_table(self):
+        return self.coff_hdr["ptr_to_symbol_table"]
 
     @property
     def num_of_sections(self):
@@ -112,3 +115,17 @@ class PEFile:
         sec_data["raw_data"] = data
         sec_data["hexdump"] = xdump(data)
         return sec_data 
+
+    def get_coff_sym_table(self):
+        sym_table_dict = {}
+        sym_table_struct = struct.Struct("QL2H2B")
+        table_ptr = int(self.coff_ptr_to_sym_table, 16)
+        raw_data = self.data[table_ptr:table_ptr+sym_table_struct.size]
+        table_data = sym_table_struct.unpack(raw_data)
+        sym_table_dict["Name"] = hex(table_data[0])
+        sym_table_dict["Value"] = hex(table_data[1])
+        sym_table_dict["SectiionNumber"] = hex(table_data[2])
+        sym_table_dict["Type"] = hex(table_data[3])
+        sym_table_dict["StorageClass"] = hex(table_data[4])
+        sym_table_dict["NumberOfAuxSymbols"] = hex(table_data[5])
+        return sym_table_dict

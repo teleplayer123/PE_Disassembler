@@ -156,9 +156,7 @@ def main():
     p.print_data_dirs
     p.print_section_hdrs
     p.print_section_names
-    p.print_import_table
-    p.print_export_table
-    p.print_hexdump(0xae9000, 104834, hdr_str="INITKDBG")
+    #p.print_hexdump(0xae9000, 104834, hdr_str="INITKDBG")
 
 if __name__ == "__main__":
     main()
