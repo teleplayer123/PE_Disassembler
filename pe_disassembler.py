@@ -125,6 +125,12 @@ class PEDisassembler:
             print(f"\t{name}")
 
     @property
+    def print_coff_symbol_table(self):
+        print("\n\nCOFF Symbol Table")
+        print("-"*16)
+        pprint(self.pe.get_coff_sym_table(), sort_dicts=False)
+
+    @property
     def print_import_table(self):
         try:
             print("\n\nImport Table")
@@ -157,6 +163,7 @@ def main():
     p.print_section_hdrs
     p.print_section_names
     #p.print_hexdump(0xae9000, 104834, hdr_str="INITKDBG")
+    #p.print_coff_symbol_table
 
 if __name__ == "__main__":
     main()
