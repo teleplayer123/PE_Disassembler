@@ -28,15 +28,9 @@ class PEDisassembler:
 
     @property
     def print_data_dirs(self):
-        print("\n\nData Directories")
-        print("-"*16)
-        pprint(self.pe.data_directories, sort_dicts=False)
-
-    @property
-    def print_data_dir_objects(self):
         print("\n\nData Directory Objects")
         print("-"*16)
-        print(self.pe.get_data_dirs, sort_dicts=False)
+        pprint(self.pe.get_data_dirs, sort_dicts=False)
 
     @property
     def print_section_hdrs(self):

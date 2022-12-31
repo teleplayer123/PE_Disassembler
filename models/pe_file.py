@@ -104,6 +104,10 @@ class PEFile:
             res = c + res
         return res
 
+    def data_dirs_aligned(self):
+        dd = self.get_data_dirs
+        
+
     def get_import_table(self):
         if not ".idata" in self.section_names:
             return None
