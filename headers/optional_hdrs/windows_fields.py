@@ -33,7 +33,7 @@ class WindowsFields(PEBase):
         win_fields["heap_size_reserve"] = hex(win_data[17])
         win_fields["heap_size_commit"] = hex(win_data[18])
         win_fields["loader_flags"] = hex(win_data[19])
-        win_fields["number_of_rva_and_sizes"] = int(hex(win_data[20]), 16)
+        win_fields["number_of_rva_and_sizes"] = hex(win_data[20])
         return win_fields
 
     def get_win_subsystem(self, hexstr: str):
