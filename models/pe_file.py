@@ -98,7 +98,6 @@ class PEFile:
         data_dirs = self.get_data_dirs
         align_n = int(self.win_fields["file_alignment"], 16)
         for name in data_dirs.keys():
-            aligned_size = None
             dd = data_dirs[name]
             dd_size = int(dd.Size, 16)
             if dd_size % align_n == 0:
