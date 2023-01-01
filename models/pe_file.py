@@ -97,6 +97,8 @@ class PEFile:
         aligned_data_dirs = {}
         data_dirs = self.get_data_dirs
         align_n = int(self.win_fields["file_alignment"], 16)
+        sec_n = 0
+        prev_size = []
         for name in data_dirs.keys():
             aligned_size = None
             dd = data_dirs[name]
@@ -105,7 +107,13 @@ class PEFile:
                 aligned_size = dd_size
             else:
                 aligned_size = dd_size + (align_n - (dd_size % align_n))
-            aligned_data_dirs[name] = DataDir(dd.VirtualAddress, hex(aligned_size))
+            prev_size.append(aligned_size)
+            if sec_n == 0:
+                aligned_data_dirs[name] = DataDir(dd.VirtualAddress, hex(aligned_size))
+            else:
+                rva_adjust = prev_size.pop()
+                aligned_data_dirs[name] = DataDir(hex(int(dd.VirtualAddress, 16)+rva_adjust), hex(aligned_size))
+            sec_n += 1
         return aligned_data_dirs
 
     def decode_bin2text(self, hexstr: str):
