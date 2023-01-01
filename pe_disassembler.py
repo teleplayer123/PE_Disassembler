@@ -33,10 +33,10 @@ class PEDisassembler:
         pprint(self.pe.get_data_dirs, sort_dicts=False)
 
     @property
-    def print_data_dir_objects(self):
-        print("\n\nData Directory Objects")
+    def print_aligned_data_dirs(self):
+        print("\n\nData Directories File Aligned")
         print("-"*16)
-        print(self.pe.get_data_dirs, sort_dicts=False)
+        pprint(self.pe.data_dirs_aligned(), sort_dicts=False)
 
     @property
     def print_section_hdrs(self):
@@ -160,6 +160,7 @@ def main():
     p.print_standard_hdr
     p.print_win_hdr
     p.print_data_dirs
+    p.print_aligned_data_dirs
     p.print_section_hdrs
     p.print_section_names
     #p.print_hexdump(0xae9000, 104834, hdr_str="INITKDBG")

@@ -170,3 +170,12 @@ class DataDirectories(PEBase):
                 ord_data = ilt_data_int >> 16
                 ref_data = hex(ord_data)
         return is_ord, ref_data
+
+    def resource_table(self):
+        pass
+
+    def relocation_table(self):
+        pass
+
+    def tls_table(self):
+        pass

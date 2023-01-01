@@ -1,4 +1,4 @@
-from headers.optional_hdrs.data_directories import DataDirectories
+from headers.optional_hdrs.data_directories import DataDirectories, DataDir
 from headers.optional_hdrs.standard_fields import StandardFields
 from headers.optional_hdrs.windows_fields import WindowsFields
 from headers.dos_hdr import DOSHeader
@@ -92,6 +92,20 @@ class PEFile:
     def section_names(self):
         names = self.section_table_obj.SECTION_NAMES
         return names
+
+    def data_dirs_aligned(self):
+        aligned_data_dirs = {}
+        data_dirs = self.get_data_dirs
+        align_n = int(self.win_fields["file_alignment"], 16)
+        for name in data_dirs.keys():
+            dd = data_dirs[name]
+            dd_size = int(dd.Size, 16)
+            if dd_size % align_n == 0:
+                aligned_size = dd_size
+            else:
+                aligned_size = dd_size + (align_n - (dd_size % align_n))
+            aligned_data_dirs[name] = DataDir(dd.VirtualAddress, hex(aligned_size))
+        return aligned_data_dirs
 
     def decode_bin2text(self, hexstr: str):
         res = ""
