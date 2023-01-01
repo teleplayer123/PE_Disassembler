@@ -131,6 +131,13 @@ class PEDisassembler:
         pprint(self.pe.get_coff_sym_table(), sort_dicts=False)
 
     @property
+    def print_coff_timestamp(self):
+        ts = self.pe.time_date_stamp
+        print("\n\nCOFF TimeDateStamp")
+        print("-"*16)
+        print(ts)
+
+    @property
     def print_import_table(self):
         try:
             print("\n\nImport Table")
@@ -147,6 +154,18 @@ class PEDisassembler:
             pprint(self.pe.get_export_table(), sort_dicts=False)
         except Exception:
             print("\nNO EXPORT TABLE")
+
+    @property
+    def print_image_base_addr(self):
+        print("\n\nImageBase")
+        print("-"*16)
+        print(self.pe.image_base)
+
+    @property
+    def print_addr_of_entry_point(self):
+        print("\n\nAddressOfEntryPoint")
+        print("-"*16)
+        print(self.pe.addr_of_entry_point)
 
 def main():
     if len(sys.argv) < 2:

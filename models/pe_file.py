@@ -48,6 +48,10 @@ class PEFile:
             return
 
     @property
+    def time_date_stamp(self):
+        return self.coff_hdr["time_date_stamp"]
+
+    @property
     def coff_ptr_to_sym_table(self):
         return self.coff_hdr["ptr_to_symbol_table"]
 
@@ -60,6 +64,19 @@ class PEFile:
     def sizeof_opt_hdr(self):
         sizeof_opt_hdr = int(self.coff_hdr["sizeof_optional_hdr"], 16)
         return sizeof_opt_hdr
+
+    @property
+    def image_base(self):
+        addr = self.win_fields["image_base"]
+        return addr
+
+    @property
+    def addr_of_entry_point(self):
+        ep_offset = int(self.standard_fields["entry_point_addr"], 16)
+        base_addr = int(self.image_base, 16)
+        ep_addr = base_addr + ep_offset
+        return hex(ep_addr)
+
 
     @property
     def sect_virtual_size(self):
