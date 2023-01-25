@@ -139,19 +139,25 @@ class PEDisassembler:
 
     @property
     def print_import_table(self):
+        res = self.pe.get_import_table()
+        if res is None:
+            return
         try:
             print("\n\nImport Table")
             print("-"*16)
-            pprint(self.pe.get_import_table(), sort_dicts=False)
+            pprint(res, sort_dicts=False)
         except Exception:
             print("\nNO IMPORT TABLE")
 
     @property
     def print_export_table(self):
+        res = self.pe.get_export_table()
+        if res is None:
+            return
         try:
             print("\n\nExport Table")
             print("-"*16)
-            pprint(self.pe.get_export_table(), sort_dicts=False)
+            pprint(res, sort_dicts=False)
         except Exception:
             print("\nNO EXPORT TABLE")
 
