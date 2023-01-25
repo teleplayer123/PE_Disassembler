@@ -77,7 +77,6 @@ class PEFile:
         ep_addr = base_addr + ep_offset
         return hex(ep_addr)
 
-
     @property
     def sect_virtual_size(self):
         vsize = self.section_table["virtual_size"]
@@ -157,11 +156,27 @@ class PEFile:
         return export_table
 
     def get_export_addr_table(self):
-        edata = self.get_export_table
+        edata = self.get_export_table()
         if edata != None:
-            return self.data_dir_obj.export_addr_table()
+            return self._export_addr_table(edata)
         else:
             return None
+
+    def _export_addr_table(self, edata_dir):
+        addr_table_dict = {}
+        rva_struct = struct.Struct("L")
+        table_offset = int(edata_dir["ExportAddressTable_RVA"], 16)
+        image_base = int(self.image_base, 16)
+        table_rva = image_base + table_offset
+        num_entries = int(edata_dir["AddressTableEntries"], 16)
+        max_addr = self.data_dir_obj.export_dir_max_rva
+        for i in range(num_entries):
+            entry_rva = table_rva + (i * rva_struct.size)
+            if entry_rva >= max_addr:
+                continue
+            rva = rva_struct.unpack(self.data[entry_rva:entry_rva+rva_struct.size])[0]
+            addr_table_dict[hex(entry_rva)] = hex(rva)
+        return addr_table_dict
 
     def get_section_data(self, sec_num: int):
         sec_data = {}
