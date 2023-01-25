@@ -162,6 +162,15 @@ class PEDisassembler:
             print("\nNO EXPORT TABLE")
 
     @property
+    def print_export_addr_table(self):
+        res = self.pe.get_export_addr_table
+        if res is None:
+            return
+        print("\n\nExport Address Table")
+        print("-"*16)
+        pprint(res, sort_dicts=False)
+
+    @property
     def print_image_base_addr(self):
         print("\n\nImageBase")
         print("-"*16)

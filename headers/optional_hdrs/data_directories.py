@@ -106,12 +106,17 @@ class DataDirectories(PEBase):
         edata_dict["OrdinalTable_RVA"] = hex(edata[10])
         return edata_dict
 
-    @property
-    def export_addr_table_rva(self):
+    def export_addr_table(self):
+        addr_table_dict = {}
+        rva_struct = struct.Struct("L")
         edata_dir = self.export_table_dir()
         table_rva = int(edata_dir["ExportAddressTable_RVA"], 16)
-        return table_rva
-        
+        num_entries = int(edata_dir["AddressTableEntries"], 16)
+        for i in range(num_entries):
+            entry_rva = table_rva + (i * rva_struct.size)
+            rva = rva_struct.unpack(self.data[entry_rva:entry_rva+rva_struct.size])[0]
+            addr_table_dict[hex(entry_rva)] = hex(rva)
+        return addr_table_dict
         
     def import_table_dir(self):
         import_table_dict = {}

@@ -156,6 +156,13 @@ class PEFile:
         export_table = self.data_dir_obj.export_table_dir()
         return export_table
 
+    def get_export_addr_table(self):
+        edata = self.get_export_table
+        if edata != None:
+            return self.data_dir_obj.export_addr_table()
+        else:
+            return None
+
     def get_section_data(self, sec_num: int):
         sec_data = {}
         sec_dict = self.section_table_obj.get_sections(self.num_of_sections, self.sect_offset)
