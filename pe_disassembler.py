@@ -163,7 +163,7 @@ class PEDisassembler:
 
     @property
     def print_export_addr_table(self):
-        res = self.pe.get_export_addr_table
+        res = self.pe.get_export_addr_table()
         if res is None:
             return
         print("\n\nExport Address Table")
