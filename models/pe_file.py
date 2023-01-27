@@ -189,10 +189,13 @@ class PEFile:
         sec_data["hexdump"] = xdump(data)
         return sec_data 
 
-    def get_coff_sym_table(self):
+    def get_coff_sym_table(self, rec_ptr: str=None):
         sym_table_dict = {}
         sym_table_struct = struct.Struct("QL2H2B")
-        table_ptr = int(self.coff_ptr_to_sym_table, 16)
+        if rec_ptr is None:
+            table_ptr = int(self.coff_ptr_to_sym_table, 16)
+        else:
+            table_ptr = int(rec_ptr, 16)
         raw_data = self.data[table_ptr:table_ptr+sym_table_struct.size]
         table_data = sym_table_struct.unpack(raw_data)
         sym_table_dict["Name"] = self.decode_bin2text(hex(table_data[0]))
