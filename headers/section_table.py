@@ -18,7 +18,8 @@ class SectionTable(PEBase):
         section_table = {}
         data = self.SECTION_TABLE_STRUCT.unpack(self.data[offset:offset+self.SECTION_TABLE_STRUCT.size])
         sect_name = self.decode_name(hex(data[0]))
-        self.SECTION_NAMES.append(sect_name)
+        if sect_name not in self.SECTION_NAMES:
+            self.SECTION_NAMES.append(sect_name)
         section_table["name"] = f"{sect_name}: {hex(data[0])}"
         section_table["virtual_size"] = int(hex(data[1]), 16)
         section_table["virtual_addr"] = hex(data[2])
