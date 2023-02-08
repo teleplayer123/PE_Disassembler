@@ -125,10 +125,10 @@ class PEFile:
                 aligned_size = dd_size + (align_n - (dd_size % align_n))
                 rva_adjustments.append(aligned_size-dd_size)
             if sec_n == 0:
-                aligned_data_dirs[name] = DataDir(dd.VirtualAddress, hex(aligned_size))
+                aligned_data_dirs[name] = DataDir(hex(int(dd.VirtualAddress, 16) + int(self.image_base, 16)), hex(aligned_size))
             else:
                 adjusted_rva = int(dd.VirtualAddress, 16) + rva_adjustments.pop()
-                aligned_data_dirs[name] = DataDir(hex(adjusted_rva), hex(aligned_size))
+                aligned_data_dirs[name] = DataDir(hex(adjusted_rva + int(self.image_base, 16)), hex(aligned_size))
             sec_n += 1
         return aligned_data_dirs
 
