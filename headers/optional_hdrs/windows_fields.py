@@ -8,10 +8,12 @@ class WindowsFields(PEBase):
         bit_size = self.get_arch_type()
         if bit_size == "PE32+":
             WIN_FIELD_STRUCT = self.WIN64_FIELD_STRUCT
+            STANDARD_HDR_SIZE = self.COFF64_FIELD_STRUCT.size
         else:
             WIN_FIELD_STRUCT = self.WIN_FIELD_STRUCT
+            STANDARD_HDR_SIZE = self.COFF_FIELD_STRUCT.size
         self.WIN_FIELD_STRUCT_SIZE = WIN_FIELD_STRUCT.size
-        offset = int(self.sig_offset, 16) + self.COFF_HDR_STRUCT.size + self.COFF_FIELD_STRUCT.size
+        offset = int(self.sig_offset, 16) + self.COFF_HDR_STRUCT.size + STANDARD_HDR_SIZE
         win_data = WIN_FIELD_STRUCT.unpack(self.data[offset:offset+WIN_FIELD_STRUCT.size])
         win_fields["image_base"] = hex(win_data[0])
         win_fields["section_alignment"] = hex(win_data[1])
