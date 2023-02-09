@@ -45,6 +45,13 @@ class PEDisassembler:
         pprint(self.pe.data_dirs_aligned(), sort_dicts=False)
 
     @property
+    def print_alignments(self):
+        print("\n\nPE Alignments")
+        print("-"*16)
+        print(f"File Alignment: {self.pe.file_alignment}")
+        print(f"Section Alignment: {self.pe.section_alignment}")
+
+    @property
     def print_section_hdrs(self):
         print("\n\nSection Headers")
         print("-"*16)

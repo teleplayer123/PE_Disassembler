@@ -48,6 +48,16 @@ class PEFile:
             return
 
     @property
+    def file_alignment(self):
+        res = self.win_fields["file_alignment"]
+        return res
+
+    @property
+    def section_alignment(self):
+        res = self.win_fields["section_alignment"]
+        return res
+
+    @property
     def time_date_stamp(self):
         return self.coff_hdr["time_date_stamp"]
 
