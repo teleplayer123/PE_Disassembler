@@ -33,6 +33,12 @@ class PEDisassembler:
         pprint(self.pe.get_data_dirs, sort_dicts=False)
 
     @property
+    def print_data_dirs_dict(self):
+        print("\n\nData Directories Dictionary")
+        print("-"*16)
+        pprint(self.pe.data_directories)
+
+    @property
     def print_aligned_data_dirs(self):
         print("\n\nData Directories File Aligned")
         print("-"*16)
