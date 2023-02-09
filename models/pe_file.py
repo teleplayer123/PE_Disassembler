@@ -144,13 +144,10 @@ class PEFile:
         return res
 
     def get_import_table(self):
-        if not ".idata" in self.section_names:
-            return None
+        #if not ".idata" in self.section_names:
+        #    return None
         import_table = self.data_dir_obj.import_table_dir()
         return import_table
-
-
-
 
     def get_export_table(self):
         if not ".edata" in self.section_names:
