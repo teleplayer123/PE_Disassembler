@@ -149,6 +149,9 @@ class PEFile:
         import_table = self.data_dir_obj.import_table_dir()
         return import_table
 
+
+
+
     def get_export_table(self):
         if not ".edata" in self.section_names:
             return None

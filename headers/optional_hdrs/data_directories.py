@@ -142,6 +142,11 @@ class DataDirectories(PEBase):
             idata_ptr += idata_struct.size
         return import_table_dict
 
+    def get_import_addr_table(self):
+        iat_rva = int(self.get_data_directories["import_addr_table"], 16)
+        iat_size = int(self.get_data_directories["import_addr_table_size"], 16)
+        
+
     def _import_lookup_table(self, hexstr: str):
         arch = self.get_arch_type()
         arch64 = False
