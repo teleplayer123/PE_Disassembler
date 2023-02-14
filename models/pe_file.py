@@ -217,7 +217,7 @@ class PEFile:
         table_data = sym_table_struct.unpack(raw_data)
         sym_table_dict["Name"] = self.decode_bin2text(hex(table_data[0]))
         sym_table_dict["Value"] = hex(table_data[1])
-        sym_table_dict["SectiionNumber"] = hex(table_data[2])
+        sym_table_dict["SectionNumber"] = hex(table_data[2])
         sym_table_dict["Type"] = hex(table_data[3])
         sym_table_dict["StorageClass"] = hex(table_data[4])
         sym_table_dict["NumberOfAuxSymbols"] = hex(table_data[5])
