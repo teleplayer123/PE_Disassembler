@@ -19,10 +19,10 @@ class COFFHeader(PEBase):
         coff_data = self.COFF_HDR_STRUCT.unpack(self.data[offset:offset+int(self.COFF_HDR_STRUCT.size)])
         coff_hdr["signature"] = hex(coff_data[0])
         coff_hdr["machine"] = f"{self.get_machine_type(hex(coff_data[1]))}: {hex(coff_data[1])}"
-        coff_hdr["number_of_sections"] = int(hex(coff_data[2]), 16)
+        coff_hdr["number_of_sections"] = hex(coff_data[2])
         coff_hdr["time_date_stamp"] = int(hex(coff_data[3]), 16)
         coff_hdr["ptr_to_symbol_table"] = hex(coff_data[4])
-        coff_hdr["number_of_symbol_tables"] = int(hex(coff_data[5]), 16)
+        coff_hdr["number_of_symbol_tables"] = hex(coff_data[5])
         coff_hdr["sizeof_optional_hdr"] = hex(coff_data[6])
         coff_hdr["characteristics"] = f"{str(self.get_characteristics(hex(coff_data[7])))}: {hex(coff_data[7])}"
         return coff_hdr

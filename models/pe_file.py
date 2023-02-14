@@ -66,9 +66,13 @@ class PEFile:
         return self.coff_hdr["ptr_to_symbol_table"]
 
     @property
+    def coff_num_sym_tables(self):
+        return self.coff_hdr["number_of_symbol_tables"]
+
+    @property
     def num_of_sections(self):
         num_of_sections = self.coff_hdr["number_of_sections"]
-        return num_of_sections
+        return int(num_of_sections, 16)
 
     @property
     def sizeof_opt_hdr(self):
@@ -204,6 +208,9 @@ class PEFile:
         sym_table_struct = struct.Struct("QL2H2B")
         if rec_ptr is None:
             table_ptr = int(self.coff_ptr_to_sym_table, 16)
+            num_tables = int(self.coff_num_sym_tables, 16)
+            if table_ptr == 0 and num_tables == 0:
+                return None
         else:
             table_ptr = int(rec_ptr, 16)
         raw_data = self.data[table_ptr:table_ptr+sym_table_struct.size]
