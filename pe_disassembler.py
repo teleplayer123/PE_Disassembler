@@ -1,4 +1,4 @@
-from models.pe_file import PEFile
+from file_formats.pe_file import PEFile
 
 from pprint import pformat, pprint
 import sys

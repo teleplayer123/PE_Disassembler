@@ -1,4 +1,4 @@
-from models.pe_file import PEFile
+from file_formats.pe_file import PEFile
 import sys
 
 def print_headers():

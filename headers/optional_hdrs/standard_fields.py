@@ -1,4 +1,4 @@
-from pe_base.pe_base import PEBase
+from models.pe_base import PEBase
 
 
 class StandardFields(PEBase):

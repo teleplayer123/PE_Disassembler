@@ -1,4 +1,4 @@
-from models.pe_file import PEFile
+from file_formats.pe_file import PEFile
 from tools.file_sec import FileCheckSec
 
 from pprint import pformat
