@@ -5,9 +5,8 @@ from file_formats.intel_hex_file import IntelHexFile
 
 
 
-def main():
+def main(fname):
     #fname = str(sys.argv[1])
-    fname = r"C:\tools\firmware\pca10040-20230426-v1.20.0.hex"
     disasm = Cs(CS_ARCH_X86, CS_MODE_64)
 
     #with open(fname, "r") as fh:
