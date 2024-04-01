@@ -1,6 +1,3 @@
-
-
-
 def xdump(data, bs=16, en="utf8"):
     if data == "" or data is None:
         return
