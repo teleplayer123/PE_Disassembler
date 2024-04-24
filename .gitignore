@@ -1,5 +1,12 @@
+<<<<<<< HEAD
 /advapi32_copy.dll
 /PE_Header.png
 /test*
 /__pycache__
+=======
+/advapi32_copy.dll
+/PE_Header.png
+/test.py
+/__pycache__
+>>>>>>> 636177df35748b3d4ae6837c72e5066eb18641f9
 __pycache__
